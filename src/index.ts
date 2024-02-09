@@ -1,8 +1,10 @@
 import cookieParser from "cookie-parser";
 import express, { Response } from "express";
+import swaggerUi from "swagger-ui-express";
 import connectDb from "./db";
 import { env } from "./env";
 import apiRouter from "./routes";
+import { swaggerSpec } from "./swagger";
 
 // Create a new express application instance
 const app = express();
@@ -13,6 +15,15 @@ app.use(express.json());
 // Parse the cookies
 app.use(cookieParser());
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     description: Returns the homepage
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
 // Define a route handler for the default home page
 app.get("/", (_req, res: Response) => {
   res.send("Hello World");
@@ -20,6 +31,9 @@ app.get("/", (_req, res: Response) => {
 
 // Define a route handler for the /api path
 app.use("/api", apiRouter);
+
+// Serve the Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Function to start the app
 async function startApp() {
