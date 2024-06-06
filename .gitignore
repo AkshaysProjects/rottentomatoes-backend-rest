@@ -1,0 +1,5 @@
+# TypeScript Build Artifacts
+dist/
+
+# Node Modules
+node_modules/
