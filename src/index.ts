@@ -1,4 +1,5 @@
 import express, { Response } from "express";
+import connectDb from "./db";
 import { env } from "./env";
 
 // Create a new express application instance
@@ -10,7 +11,11 @@ app.get("/", (_req, res: Response) => {
 });
 
 // Function to start the app
-function startApp() {
+async function startApp() {
+  // Wait for the database connection
+  await connectDb();
+
+  // Start the server
   app.listen(env.PORT, () => {
     console.log("Server is running on port 3000");
   });
