@@ -1,6 +1,7 @@
 import express, { Response } from "express";
 import connectDb from "./db";
 import { env } from "./env";
+import apiRouter from "./routes";
 
 // Create a new express application instance
 const app = express();
@@ -9,6 +10,9 @@ const app = express();
 app.get("/", (_req, res: Response) => {
   res.send("Hello World");
 });
+
+// Define a route handler for the /api path
+app.use("/api", apiRouter);
 
 // Function to start the app
 async function startApp() {
