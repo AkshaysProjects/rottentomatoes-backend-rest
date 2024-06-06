@@ -1,4 +1,5 @@
 import express, { Response } from "express";
+import { env } from "./env";
 
 // Create a new express application instance
 const app = express();
@@ -10,8 +11,7 @@ app.get("/", (_req, res: Response) => {
 
 // Function to start the app
 function startApp() {
-  // TODO: Use a port from environment variables
-  app.listen(3000, () => {
+  app.listen(env.PORT, () => {
     console.log("Server is running on port 3000");
   });
 }
