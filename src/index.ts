@@ -6,6 +6,9 @@ import apiRouter from "./routes";
 // Create a new express application instance
 const app = express();
 
+// Parse the JSON body
+app.use(express.json());
+
 // Define a route handler for the default home page
 app.get("/", (_req, res: Response) => {
   res.send("Hello World");
