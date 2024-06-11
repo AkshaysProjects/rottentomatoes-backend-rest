@@ -166,11 +166,51 @@ export async function loginUser(req: Request, res: Response) {
   }
 }
 
-// TODO: Implement after authentication
 // Get the logged in user
-// export function getUser(req: Request, res: Response) {}
-// // Update the logged in user
-// export function updateUser(req: Request, res: Response) {}
+export async function getUser(_req: Request, res: Response) {
+  // Get the user from the request
+  const user = await User.findById(res.locals.user._id, {
+    password: 0,
+  }).populate("shortlist");
 
-// // Delete the logged in user
-// export function deleteUser(req: Request, res: Response) {}
+  // Return the user from the request (set by the authenticate middleware)
+  return res.status(200).json(user);
+}
+
+// Logout the logged in user
+export async function logoutUser(_req: Request, res: Response) {
+  // Clear the cookie
+  res.clearCookie("token");
+
+  // Return a success message
+  return res.status(200).json({ message: "Logout successful" });
+}
+
+// Update the logged in user
+export async function updateUser(req: Request, res: Response) {
+  // Get and update the user
+  const user = await User.findByIdAndUpdate(res.locals.user._id, req.body, {
+    new: true,
+    projection: { password: 0 },
+  });
+
+  // Return the updated user
+  return res.status(200).json(user);
+}
+
+// Delete the logged in user
+export async function deleteUser(_req: Request, res: Response) {
+  try {
+    // Delete the user
+    const user = await User.findByIdAndUpdate(res.locals.user._id);
+
+    // Return the deleted user
+    return res.status(200).json(user);
+  } catch (error) {
+    // Return an error if the user is not found
+    if (error instanceof Error)
+      return res.status(500).json({ error: error.message });
+    // Return a generic error
+    else return res.status(500).json({ error: "An error occurred" });
+  }
+}
