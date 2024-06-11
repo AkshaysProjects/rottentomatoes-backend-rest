@@ -1,4 +1,5 @@
 import { Router } from "express";
+import mediaRouter from "./media";
 import shortlistRouter from "./shortlist";
 import userRouter from "./user";
 
@@ -10,5 +11,8 @@ apiRouter.use("/user", userRouter);
 
 // Use the shortlist router for the /shortlist path
 apiRouter.use("/shortlist", shortlistRouter);
+
+// Use the media router for the /media path
+apiRouter.use("/media", mediaRouter);
 
 export default apiRouter;
