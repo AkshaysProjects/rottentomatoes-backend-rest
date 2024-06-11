@@ -4,7 +4,7 @@ import { model, Model, Schema, Types } from "mongoose";
 import { env } from "../env";
 
 // Type definition for the User model
-type User = {
+export type User = {
   name: string;
   email: string;
   password: string;
@@ -16,6 +16,7 @@ type User = {
 // Define the type for the user methods
 type UserMethods = {
   comparePassword(candidatePassword: string): Promise<boolean>;
+  generateToken(): Promise<string>;
   generateVerificationToken(): Promise<string>;
   generateResendToken(): Promise<string>;
 };
@@ -63,6 +64,14 @@ UserSchema.method(
     return compare(candidatePassword, user.password);
   }
 );
+
+// Provide a method to generate a JWT
+UserSchema.method("generateToken", async function () {
+  const user = this as User;
+  return jwt.sign({ email: user.email }, env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
+});
 
 // Provide a method to generate a verification token
 UserSchema.method("generateVerificationToken", async function () {

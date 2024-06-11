@@ -73,8 +73,14 @@ export async function verifyEmail(req: Request, res: Response) {
     // Save the user
     await user.save();
 
-    // TODO: Implement authentication (JWT with cookies)
-    // await authenticate(user, res);
+    // Get the jwt token
+    const jwtToken = await user.generateToken();
+
+    // Set the jwt token in the cookie
+    res.cookie("token", jwtToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
 
     return res.status(200).json({ message: "Email verified" });
   } catch (error) {
@@ -143,8 +149,14 @@ export async function loginUser(req: Request, res: Response) {
     if (!passwordMatch)
       return res.status(401).json({ error: "Invalid credentials" });
 
-    // TODO: Implement authentication (JWT with cookies)
-    // await authenticate(user, res);
+    // Get the jwt token
+    const jwtToken = await user.generateToken();
+
+    // Set the jwt token in the cookie
+    res.cookie("token", jwtToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
 
     return res.status(200).json({ message: "Login successful" });
   } catch (error) {

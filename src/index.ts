@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import express, { Response } from "express";
 import connectDb from "./db";
 import { env } from "./env";
@@ -8,6 +9,9 @@ const app = express();
 
 // Parse the JSON body
 app.use(express.json());
+
+// Parse the cookies
+app.use(cookieParser());
 
 // Define a route handler for the default home page
 app.get("/", (_req, res: Response) => {
