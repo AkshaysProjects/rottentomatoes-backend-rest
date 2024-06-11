@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { createUser, loginUser } from "../controllers/user";
+import {
+  createUser,
+  loginUser,
+  resendEmail,
+  verifyEmail,
+} from "../controllers/user";
 import { validateData } from "../middlewares/validation";
 import { userLoginSchema, userRegistrationSchema } from "../schemas/user";
 
@@ -8,6 +13,12 @@ const userRouter = Router();
 
 // Route to create a new user
 userRouter.post("/", validateData(userRegistrationSchema), createUser);
+
+// Route to verify a user's email
+userRouter.get("/verify-email/", verifyEmail);
+
+// Route to resend a verification email
+userRouter.get("/resend-email/", resendEmail);
 
 // Route to login a user
 userRouter.post("/login", validateData(userLoginSchema), loginUser);
