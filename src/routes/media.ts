@@ -74,6 +74,20 @@ mediaRouter.get("/", getMedia);
 
 /**
  * @swagger
+ * /api/media/filters:
+ *   get:
+ *     summary: Get available filters for media
+ *     tags: [Media]
+ *     responses:
+ *       200:
+ *         description: Media filters retrieved successfully
+ *       500:
+ *         description: Internal server error
+ */
+mediaRouter.get("/filters", getMediaFilters);
+
+/**
+ * @swagger
  * /api/media/{id}:
  *   get:
  *     summary: Get a media item by ID
@@ -94,19 +108,5 @@ mediaRouter.get("/", getMedia);
  *         description: Internal server error
  */
 mediaRouter.get("/:id", getMediaById);
-
-/**
- * @swagger
- * /api/media/filters:
- *   get:
- *     summary: Get available filters for media
- *     tags: [Media]
- *     responses:
- *       200:
- *         description: Media filters retrieved successfully
- *       500:
- *         description: Internal server error
- */
-mediaRouter.get("/filters", getMediaFilters);
 
 export default mediaRouter;
